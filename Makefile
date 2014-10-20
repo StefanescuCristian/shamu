@@ -241,7 +241,7 @@ CONFIG_SHELL := $(shell if [ -x "$$BASH" ]; then echo $$BASH; \
 
 HOSTCC       = gcc
 HOSTCXX      = g++
-HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -O2 -fomit-frame-pointer -ftracer -pipe
+HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu89 -ftracer -pipe
 HOSTCXXFLAGS = -O2 -ftracer -pipe
 
 # Decide whether to build built-in, modular, or both.
@@ -347,7 +347,7 @@ CHECK		= sparse
 
 CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
 		  -Wbitwise -Wno-return-void $(CF)
-KERNELFLAGS		= -DNDEBUG -O2 -ftracer -mtune=cortex-a15 -pipe
+KERNELFLAGS		= -O2 -ftracer -mtune=cortex-a15 -pipe
 CC				+= $(KERNELFLAGS)
 CPP				+= $(KERNELFLAGS)
 CFLAGS_MODULE   =
@@ -382,7 +382,9 @@ KBUILD_CFLAGS   := -O2 -ftracer -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs
 		   -Werror-implicit-function-declaration \
 		   -Wno-format-security \
 		   -fno-delete-null-pointer-checks \
-		   -mtune=cortex-a15 -pipe
+		   -mtune=cortex-a15 -pipe -std=gnu89
+
+>>>>>>> c7c8674... kernel: use the gnu89 standard explicitly
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
 KBUILD_AFLAGS   := -D__ASSEMBLY__
