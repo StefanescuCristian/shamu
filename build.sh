@@ -2,7 +2,7 @@
 export PATH=/home/cristi/kb/arm-eabi-4.9.4/bin:$PATH
 export ARCH=arm
 export SUBARCH=arm
-export CROSS_COMPILE="ccache /home/cristi/kb/arm-eabi-4.9.4/bin/arm-eabi-"
+export CROSS_COMPILE="/home/cristi/kb/arm-eabi-4.9.4/bin/arm-eabi-"
 
 #cleanup to be sure that we don't build the same kernel
 echo -e "\e[92mCleaning the build directory\e[0m"
