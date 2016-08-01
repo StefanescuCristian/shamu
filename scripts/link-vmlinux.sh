@@ -41,7 +41,7 @@ info()
 # ${1} output file
 modpost_link()
 {
-	${LDFINAL} ${LDFLAGS} -r -o ${1} ${KBUILD_VMLINUX_INIT}                   \
+	${LD} ${LDFLAGS} -r -o ${1} ${KBUILD_VMLINUX_INIT}                   \
 		--start-group ${KBUILD_VMLINUX_MAIN} --end-group
 }
 
@@ -81,8 +81,6 @@ kallsyms()
 	if [ -n "${CONFIG_KALLSYMS_ALL}" ]; then
 		kallsymopt="${kallsymopt} --all-symbols"
 	fi
-
-	kallsymopt="${kallsymopt} --page-offset=$CONFIG_PAGE_OFFSET"
 
 	local aflags="${KBUILD_AFLAGS} ${KBUILD_AFLAGS_KERNEL}               \
 		      ${NOSTDINC_FLAGS} ${LINUXINCLUDE} ${KBUILD_CPPFLAGS}"
@@ -142,6 +140,13 @@ case "${KCONFIG_CONFIG}" in
 	. "./${KCONFIG_CONFIG}"
 esac
 
+#link vmlinux.o
+info LD vmlinux.o
+modpost_link vmlinux.o
+
+# modpost vmlinux.o to check for section mismatches
+${MAKE} -f "${srctree}/scripts/Makefile.modpost" vmlinux.o
+
 # Update version
 info GEN .version
 if [ ! -r .version ]; then
@@ -154,13 +159,6 @@ fi;
 
 # final build of init/
 ${MAKE} -f "${srctree}/scripts/Makefile.build" obj=init
-
-#link vmlinux.o
-info LDFINAL vmlinux.o
-modpost_link vmlinux.o
-
-# modpost vmlinux.o to check for section mismatches
-${MAKE} -f "${srctree}/scripts/Makefile.modpost" vmlinux.o
 
 kallsymso=""
 kallsyms_vmlinux=""
@@ -189,12 +187,10 @@ if [ -n "${CONFIG_KALLSYMS}" ]; then
 	kallsyms_vmlinux=.tmp_vmlinux2
 
 	# step 1
-	info LDFINAL .tmp_vmlinux1
 	vmlinux_link "" .tmp_vmlinux1
 	kallsyms .tmp_vmlinux1 .tmp_kallsyms1.o
 
 	# step 2
-	info LDFINAL .tmp_vmlinux2
 	vmlinux_link .tmp_kallsyms1.o .tmp_vmlinux2
 	kallsyms .tmp_vmlinux2 .tmp_kallsyms2.o
 
