@@ -347,7 +347,11 @@ CHECK		= sparse
 
 CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
 		  -Wbitwise -Wno-return-void $(CF)
-KERNELFLAGS		= -DNDEBUG -O2 -ftracer -mtune=cortex-a15 -pipe
+KERNELFLAGS		= -O3 -fgcse-las -fgcse-sm -fipa-pta -fivopts \
+				  -fomit-frame-pointer -frename-registers \
+				  -ftracer -ftree-loop-im -ftree-loop-ivcanon \
+				  -funsafe-loop-optimizations -funswitch-loops -fweb -ftracer \
+				  -mtune=cortex-a15 -pipe
 CC				+= $(KERNELFLAGS)
 CPP				+= $(KERNELFLAGS)
 CFLAGS_MODULE   =
@@ -377,7 +381,11 @@ LINUXINCLUDE    := \
 
 KBUILD_CPPFLAGS := -D__KERNEL__
 
-KBUILD_CFLAGS   := -O2 -ftracer -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
+KBUILD_CFLAGS   := -O3 -fgcse-las -fgcse-sm -fipa-pta -fivopts \
+		   -fomit-frame-pointer -frename-registers \
+		   -ftracer -ftree-loop-im -ftree-loop-ivcanon \
+		   -funsafe-loop-optimizations -funswitch-loops -fweb \
+		   -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -fno-strict-aliasing -fno-common \
 		   -Werror-implicit-function-declaration \
 		   -Wno-format-security \
