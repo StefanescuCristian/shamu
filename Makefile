@@ -384,7 +384,6 @@ KBUILD_CFLAGS   := -O2 -ftracer -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs
 		   -fno-delete-null-pointer-checks \
 		   -mtune=cortex-a15 -pipe -std=gnu89
 
->>>>>>> c7c8674... kernel: use the gnu89 standard explicitly
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
 KBUILD_AFLAGS   := -D__ASSEMBLY__
